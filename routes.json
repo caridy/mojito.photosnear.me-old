@@ -1,0 +1,24 @@
+[{
+    "settings": [ "master" ],
+
+	"root": {
+		"path": "/",
+		"method": ["get"],
+		"call": "frame.index"
+	},
+
+	"places": {
+		"path": "/places/:id/",
+		"method": ["get"],
+		"call": "frame.index",
+		"params": "page=place"
+	},
+
+	"photos": {
+		"path": "/photos/:id/",
+		"method": ["get"],
+		"call": "frame.index",
+		"params": "page=photo"
+	}
+
+}]

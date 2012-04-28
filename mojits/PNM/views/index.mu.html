@@ -1,0 +1,24 @@
+<div id="{{mojit_view_id}}">
+	<div id="wrap" class="{{#located}}located{{/located}}{{^located}}loading{{/located}}">
+	    <div id="header">
+	        <h1>
+			    <a href="/" id="logo">
+			        <span class="pin-shadow"></span>
+			        <span class="pin"></span>
+			    </a>
+			    {{#place}}
+			    <a href="/places/{{id}}/">
+			        Photos Near <span id="location">{{text}}</span>
+			    </a>
+			    {{/place}}
+			    {{^place}}
+			    Photos Near <span id="location">Me</span>
+			    {{/place}}
+			</h1>
+	    </div>
+
+	    <div id="main">
+	        {{{body}}}
+	    </div>
+	</div>
+</div>

@@ -1,0 +1,35 @@
+[
+    {
+        "settings": [ "master" ],
+        "specs": {
+            "frame": {
+                "type": "SearchHTMLFrame",
+                "config": {
+                    "title": "Photos Near Me",
+                    "deploy": true,
+                    "child" : {
+                        "type": "PNM"
+                    }
+                }
+            }
+        },
+        "yui": {
+            "config": {
+                "bootstrap": true,
+                "combine": false,
+                "filter": "debug"
+            },
+            "dependencyCalculations": "precomputed"
+        },
+        "staticHandling": {
+            "appName": "i",
+            "prefix": ""
+        }
+    },
+    {
+        "settings": [ "environment:development" ],
+        "staticHandling": {
+            "forceUpdate": true
+        }
+    }
+]
