@@ -92,7 +92,13 @@ YUI.add('PNM', function(Y, NAME) {
                 located: false,
                 place: null
             });
-            ac.done({});
+            ac.done({}, {
+                view: {
+                    "name": 'loading',
+                    "engine": 'hb',
+                    "content-path": __dirname+"/views/loading.hb.html"
+                }
+            });
         },
 
         /**
@@ -133,6 +139,12 @@ YUI.add('PNM', function(Y, NAME) {
                     photos: photos.map(function (photo) {
                         return photo.getAttrs(['id', 'clientId', 'thumbUrl']);
                     })
+                }, {
+                    view: {
+                        "name": 'place',
+                        "engine": 'hb',
+                        "content-path": __dirname+"/views/place.hb.html"
+                    }
                 });
             });
         },
@@ -170,6 +182,12 @@ YUI.add('PNM', function(Y, NAME) {
                     photo: Y.merge({title: 'Photo'}, photo.getAttrs([
                         'title', 'largeUrl', 'pageUrl', 'description'
                     ]))
+                }, {
+                    view: {
+                        "name": 'photo',
+                        "engine": 'hb',
+                        "content-path": __dirname+"/views/photo.hb.html"
+                    }
                 });
             });
         }

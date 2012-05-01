@@ -3,8 +3,8 @@
 	{{#each photos}}
 
 
-	    {{> grid-photo}}
-		<li class="photo" id="{{clientId}}">
+	    <!-- partial: grid-photo /-->
+	    <li class="photo" id="{{clientId}}">
 		    <a href="/photos/{{id}}/">
 		        {{#if thumbUrl}}
 		        <img src="{{thumbUrl}}" />
