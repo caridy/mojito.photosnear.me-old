@@ -176,4 +176,4 @@ YUI.add('PNM', function(Y, NAME) {
 
     };
 
-}, '0.0.1', {requires: ['mojito'/*, 'pnm-place', 'pnm-photo'*/]});
+}, '0.0.1', {requires: ['mojito', 'pnm-place', 'pnm-photo']});
