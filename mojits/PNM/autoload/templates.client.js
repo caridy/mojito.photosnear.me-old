@@ -1,5 +1,12 @@
 YUI.add('pnm-templates', function (Y) {
 
+/*
+
+THIS IS A BIG HACK FOR NOW UNTIL WE FIGURE OUT HOW TO PRECOMPILE HANDLEBARS
+TEMPLATES IN MOJITO AND PASSING THEM TO THE CLIENT SIDE.
+
+*/
+
 var Templates = Y.namespace('PNM').Templates = {};
 
 

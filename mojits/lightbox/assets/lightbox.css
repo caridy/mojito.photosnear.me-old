@@ -1,0 +1,91 @@
+.lightbox { text-align: center; }
+.lightbox .photo {
+    position: relative;
+    display: inline-block;
+    zoom: 1; *display: inline;
+    border: #fff 4px solid;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+.lightbox .photo img {
+    display: block;
+    max-width: 100%;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.lightbox .photo-nav {
+    margin: 0;
+    padding: 0;
+}
+.lightbox .photo-nav .prev,
+.lightbox .photo-nav .next {
+    position: absolute;
+    top: 0;
+    width: 10%;
+    height: 100%;
+}
+.lightbox .photo-nav .prev {
+    left: 0;
+}
+.lightbox .photo-nav .next {
+    right: 0;
+}
+.lightbox .photo-nav a {
+    display: block;
+    height: 100%;
+    text-indent: -9999px;
+}
+.lightbox .photo-info {
+    position: absolute;
+    left: 0;
+    bottom: 24px;
+    width: 100%;
+    color: #fff;
+    text-align: left;
+    background: #222;
+    background: rgba(0,0,0, 0.65);
+}
+.lightbox .photo-info a:link,
+.lightbox .photo-info a:visited {
+    color: #fff;
+    text-decoration: none;
+}
+.lightbox .photo-title {
+    font-family: "myriad-pro-1", "myriad-pro-2", sans-serif;
+    font-weight: 400;
+    padding: 0 10px;
+}
+
+@media only screen and (min-width: 0px) {
+
+    .lightbox .photo-info {
+        bottom: 14px;
+    }
+    .lightbox .photo-title {
+        font-size: 1.25em;
+    }
+
+}
+
+/* iPhone in portriat mode gets a smaller heading */
+@media only screen and (max-device-width: 480px) and (max-width: 320px) {
+
+    .lightbox .photo-title {
+        font-size: 1em;
+    }
+
+}
+
+/* iPad portriat */
+@media only screen and (min-width: 768px) {
+
+    .lightbox .photo-info {
+        bottom: 24px;
+    }
+    .lightbox .photo-title {
+        font-size: 1.5em;
+    }
+
+}

@@ -1,0 +1,90 @@
+.grid ul {
+    margin: 0 -5px;
+    padding: 0;
+    word-spacing: inherit;
+}
+.grid .photo { padding: 5px; }
+.grid .photo a {
+    display: block;
+    position: relative;
+    padding: 2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #fff;
+    width: 75px;
+    height: 75px;
+}
+.grid .photo img {
+    display: block;
+    width: 100%;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+.grid .selected a:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff url(img/spinner.gif) center no-repeat;
+    opacity: 0.5;
+}
+.grid .selected img { opacity: 0.5; }
+
+@media only screen and (min-width: 0px) {
+
+    .grid ul { margin: 0 6px; }
+    .grid .photo { padding: 4px; }
+    .grid .photo a {
+        width: 66px;
+        height: 66px;
+    }
+
+}
+
+/* iPhone in portriat mode gets a smaller heading */
+@media only screen and (max-device-width: 480px) and (max-width: 320px) {
+
+    .grid .photo a {
+        width: 65px;
+        height: 65px;
+    }
+
+}
+
+/* iPad portriat */
+@media only screen and (min-width: 768px) {
+
+    .grid ul { margin: 0 -5px; }
+    .grid .photo { padding: 5px; }
+    .grid .photo a {
+        width: 68px;
+        height: 68px;
+    }
+
+}
+
+@media only screen and (min-width: 880px) {
+
+    .grid .photo a {
+        width: 75px;
+        height: 75px;
+    }
+
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
+
+    .grid .selected a:after {
+        background-image: url(img/spinner-2x.gif);
+        background-size: 32px 32px;
+    }
+
+}

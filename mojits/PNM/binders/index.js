@@ -23,8 +23,14 @@ YUI.add('PNMBinderIndex', function(Y, NAME) {
          * have been constructed.
          */
         init: function(mojitProxy) {
+            Y.log ('init', 'info', NAME);
             this.mojitProxy = mojitProxy;
             this.config = mojitProxy.config;
+            this.initialData = {};
+
+            // HACK to collect data form the differnet mojits in the page
+            Y.Global.on('register:mojit:data', Y.bind(this.registerChildMojitData, this));
+
             // normalization process to match the format of the original PNM
             YUI.namespace('Env.Flickr').API_KEY = this.config.flickr && this.config.flickr.api_key;
         },
@@ -37,10 +43,11 @@ YUI.add('PNMBinderIndex', function(Y, NAME) {
          */
         bind: function(node) {
             // try { Typekit.load(); } catch (e) {}
+            var initialData = YUI.namespace('Env.PNM'),
+                place  = new Y.PNM.Place(initialData.place),
+                photos = new Y.PNM.Photos().reset(initialData.photos || []);
 
-            var data   = this.config.data || {},
-                place  = new Y.PNM.Place(data.place),
-                photos = new Y.PNM.Photos().reset(data.photos || []);
+            Y.log ('bind', 'info', NAME);
 
             new Y.PNM.App({
                 container    : '#wrap',
@@ -48,8 +55,7 @@ YUI.add('PNMBinderIndex', function(Y, NAME) {
                 transitions  : false,
                 serverRouting: true,
                 place        : place,
-                photos       : photos,
-                mojitProxy   : this.mojitProxy
+                photos       : photos
             });
 
         }

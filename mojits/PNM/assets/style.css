@@ -307,103 +307,6 @@ h1 a:visited {
     padding: 1em 0;
 }
 
-.grid ul {
-    margin: 0 -5px;
-    padding: 0;
-    word-spacing: inherit;
-}
-.grid .photo { padding: 5px; }
-.grid .photo a {
-    display: block;
-    position: relative;
-    padding: 2px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    background: #fff;
-    width: 75px;
-    height: 75px;
-}
-.grid .photo img {
-    display: block;
-    width: 100%;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-}
-.grid .selected a:after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #fff url(img/spinner.gif) center no-repeat;
-    opacity: 0.5;
-}
-.grid .selected img { opacity: 0.5; }
-
-.lightbox { text-align: center; }
-.lightbox .photo {
-    position: relative;
-    display: inline-block;
-    zoom: 1; *display: inline;
-    border: #fff 4px solid;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-}
-.lightbox .photo img {
-    display: block;
-    max-width: 100%;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-}
-.lightbox .photo-nav {
-    margin: 0;
-    padding: 0;
-}
-.lightbox .photo-nav .prev,
-.lightbox .photo-nav .next {
-    position: absolute;
-    top: 0;
-    width: 10%;
-    height: 100%;
-}
-.lightbox .photo-nav .prev {
-    left: 0;
-}
-.lightbox .photo-nav .next {
-    right: 0;
-}
-.lightbox .photo-nav a {
-    display: block;
-    height: 100%;
-    text-indent: -9999px;
-}
-.lightbox .photo-info {
-    position: absolute;
-    left: 0;
-    bottom: 24px;
-    width: 100%;
-    color: #fff;
-    text-align: left;
-    background: #222;
-    background: rgba(0,0,0, 0.65);
-}
-.lightbox .photo-info a:link,
-.lightbox .photo-info a:visited {
-    color: #fff;
-    text-decoration: none;
-}
-.lightbox .photo-title {
-    font-family: "myriad-pro-1", "myriad-pro-2", sans-serif;
-    font-weight: 400;
-    padding: 0 10px;
-}
-
 @media only screen and (min-width: 0px) {
 
     h1 {
@@ -437,20 +340,6 @@ h1 a:visited {
         height: 27px;
     }
 
-    .grid ul { margin: 0 6px; }
-    .grid .photo { padding: 4px; }
-    .grid .photo a {
-        width: 66px;
-        height: 66px;
-    }
-
-    .lightbox .photo-info {
-        bottom: 14px;
-    }
-    .lightbox .photo-title {
-        font-size: 1.25em;
-    }
-
 }
 
 /* iPhone in portriat mode gets a smaller heading */
@@ -476,15 +365,6 @@ h1 a:visited {
         background-size: 16px 11px;
         right: -4px;
         height: 18px;
-    }
-
-    .grid .photo a {
-        width: 65px;
-        height: 65px;
-    }
-
-    .lightbox .photo-title {
-        font-size: 1em;
     }
 
 }
@@ -519,30 +399,11 @@ h1 a:visited {
         height: 35px;
     }
 
-    .grid ul { margin: 0 -5px; }
-    .grid .photo { padding: 5px; }
-    .grid .photo a {
-        width: 68px;
-        height: 68px;
-    }
-
-    .lightbox .photo-info {
-        bottom: 24px;
-    }
-    .lightbox .photo-title {
-        font-size: 1.5em;
-    }
-
 }
 
 @media only screen and (min-width: 880px) {
 
     #wrap { max-width: 880px;}
-
-    .grid .photo a {
-        width: 75px;
-        height: 75px;
-    }
 
 }
 
@@ -556,8 +417,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
         background-size: 50px 50px;
     }
 
-    .loading,
-    .grid .selected a:after {
+    .loading {
         background-image: url(img/spinner-2x.gif);
         background-size: 32px 32px;
     }

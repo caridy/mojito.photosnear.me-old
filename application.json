@@ -2,13 +2,26 @@
     {
         "settings": [ "master" ],
         "specs": {
+            "pnm": {
+                "type": "PNM",
+                "config": {
+                    "children": {
+                        "lightbox": {
+                            "type": "lightbox"
+                        },
+                        "grid": {
+                            "type": "grid"
+                        }
+                    }
+                }
+            },
             "frame": {
                 "type": "SearchHTMLFrame",
                 "config": {
                     "title": "Photos Near Me",
                     "deploy": true,
                     "child" : {
-                        "type": "PNM"
+                        "base": "pnm"
                     }
                 }
             }
@@ -17,7 +30,16 @@
             "config": {
                 "bootstrap": true,
                 "combine": false,
-                "filter": "debug"
+                "filter": "debug",
+                "logExclude": {
+                    "attribute": true,
+                    "event": true,
+                    "node": true,
+                    "Selector": true,
+                    "base": true,
+                    "widget": true,
+                    "Plugin": true
+                }
             },
             "dependencyCalculations": "precomputed"
         },

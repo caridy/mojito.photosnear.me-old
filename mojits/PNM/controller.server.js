@@ -27,10 +27,9 @@ YUI.add('PNM', function(Y, NAME) {
          */
         index: function(ac) {
             var metas  = ac.config.getDefinition('metas') || [],
-                params = (ac.params.params && ac.params.params.route) || {},
-                page   = params.page || 'loading',
-                id     = params.id,
-                pushData = {};
+                params = ac.params.params || {},
+                route  = params.route || {},
+                templateData = {};
 
             // adding basic meta-data on each page
             Y.each(metas, function (m) {
@@ -39,30 +38,6 @@ YUI.add('PNM', function(Y, NAME) {
             ac.assets.addCss('./style.css');
             ac.assets.addJs('./vendor/ios-orientationchange-fix.js');
 
-            // defining the children structure
-            // for composite execution
-            ac.instance.config.children = {
-                "body": {
-                    "type": "PNM",
-                    "action": page,
-                    // we pass data into the child mojit just like
-                    // we do with the regular routes, and it will
-                    // not be sent to the client side as part of the
-                    // payload, so, it is secure.
-                    "params": {
-                        "route": {
-                            "id": id
-                        },
-                        "pushData": function (name, value) {
-                            // pushData is accessible from children, so new
-                            // data can be pushed into the parent mojit.
-                            // In this case we just pass it to the client.
-                            ac.instance.config[name] = value;
-                        }
-                    }
-                }
-            };
-            ac.instance.config.foo = {};
             // piping the flickr configuration into the binder config
             ac.instance.config.flickr = ac.config.getDefinition('flickr');
             
@@ -70,128 +45,35 @@ YUI.add('PNM', function(Y, NAME) {
             // and in the client. This is to avoid changing Eric's code.
             YUI.namespace('Env.Flickr').API_KEY = ac.instance.config.flickr.api_key;
 
-            // executing the child mojit->action, passing
-            // the corresponding id
+
+
+            // super HACK to create a communication pipeline between the parent mojit
+            // and every children
+            Y.each(Y.Object.keys(ac.instance.config.children), function (name) {
+                var childConfig = ac.instance.config.children[name].config || {};
+                // this trick will create a method that will be accessible at the child controller
+                // to inject data into the parent mojit configuration and template
+                childConfig.pushData = function (name, value) {
+                    ac.instance.config[name] = value;
+                    templateData[name] = value;
+                };
+                // piping this back
+                ac.instance.config.children[name].config = childConfig;
+            });
+
+
+            // creating the composite view
             ac.composite.done({
-                template: {}
-            });
-        },
-
-        /**
-         * Method corresponding to the 'loading' action.
-         *
-         * @param ac {Object} The ActionContext that provides access
-         *        to the Mojito API.
-         */
-        loading: function(ac) {
-            var route    = (ac.params.params && ac.params.params.route) || {},
-                pushData = (ac.params.params && ac.params.params.pushData);
-
-            // pushing data into the parent mojit
-            pushData('data', {
-                located: false,
-                place: null
-            });
-            ac.done({}, {
+                template: templateData
+            }, {
                 view: {
-                    "name": 'loading',
+                    "name": 'index',
                     "engine": 'hb',
-                    "content-path": __dirname+"/views/loading.hb.html"
+                    "content-path": __dirname+"/views/index.hb.html"
                 }
-            });
-        },
-
-        /**
-         * Method corresponding to the 'places' action.
-         *
-         * @param ac {Object} The ActionContext that provides access
-         *        to the Mojito API.
-         */
-        place: function(ac) {
-            var route    = (ac.params.params && ac.params.params.route) || {},
-                pushData = (ac.params.params && ac.params.params.pushData),
-                place    = new Y.PNM.Place({id: route.id}),
-                photos   = new Y.PNM.Photos(),
-                requests = new Y.Parallel();
-
-            place.load(requests.add());
-            photos.load({place: place}, requests.add());
-
-            requests.done(function () {
-                // pushing data structure into the parent mojit to be sent
-                // to the client side via binder
-                pushData('data', {
-                    located: true,
-
-                    place: {
-                        id  : place.get('id'),
-                        text: place.toString()
-                    },
-
-                    initialData: {
-                        place : place,
-                        photos: photos
-                    }
-                });
-
-                // producing html content per photo
-                ac.done({
-                    photos: photos.map(function (photo) {
-                        return photo.getAttrs(['id', 'clientId', 'thumbUrl']);
-                    })
-                }, {
-                    view: {
-                        "name": 'place',
-                        "engine": 'hb',
-                        "content-path": __dirname+"/views/place.hb.html"
-                    }
-                });
-            });
-        },
-
-        /**
-         * Method corresponding to the 'photos' action.
-         *
-         * @param ac {Object} The ActionContext that provides access
-         *        to the Mojito API.
-         */
-        photo: function(ac) {
-            var route    = (ac.params.params && ac.params.params.route) || {},
-                pushData = (ac.params.params && ac.params.params.pushData),
-                photo = new Y.PNM.Photo({id: route.id}),
-                place;
-
-            photo.load(function () {
-                place = photo.get('place');
-
-                // pushing data structure into the parent mojit to be sent
-                // to the client side via binder
-                pushData('data', {
-                    located: true,
-
-                    place: {
-                        id  : place.get('id'),
-                        text: place.toString()
-                    },
-
-                    initialData: {
-                        place: place
-                    }
-                });
-                ac.done({
-                    photo: Y.merge({title: 'Photo'}, photo.getAttrs([
-                        'title', 'largeUrl', 'pageUrl', 'description'
-                    ]))
-                }, {
-                    view: {
-                        "name": 'photo',
-                        "engine": 'hb',
-                        "content-path": __dirname+"/views/photo.hb.html"
-                    }
-                });
             });
         }
 
     };
 
-}, '0.0.1', {requires: ['mojito', 'pnm-place', 'pnm-photo']});
+}, '0.0.1', {requires: ['mojito']});

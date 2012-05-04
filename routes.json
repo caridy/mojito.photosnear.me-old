@@ -11,14 +11,14 @@
 		"path": "/places/:id/",
 		"method": ["get"],
 		"call": "frame.index",
-		"params": "page=place"
+		"params": "type=place"
 	},
 
 	"photos": {
 		"path": "/photos/:id/",
 		"method": ["get"],
 		"call": "frame.index",
-		"params": "page=photo"
+		"params": "type=photo"
 	}
 
 }]
