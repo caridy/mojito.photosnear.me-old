@@ -76,7 +76,7 @@ YUI.add('grid', function(Y, NAME) {
                     // the photo.place attribute which is a complex structure
                     // ac.instance.config.photos = photos.toJSON();
                     // So, I will do my own thing here
-                    ac.instance.config.place = photos.map(function (model) {
+                    ac.instance.config.photos = photos.map(function (model) {
                         var attrs = model.getAttrs();
                         delete attrs.place;
                         delete attrs.clientId;

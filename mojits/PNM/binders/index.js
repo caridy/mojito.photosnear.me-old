@@ -10,6 +10,9 @@ YUI.add('PNMBinderIndex', function(Y, NAME) {
  * @module PNMBinderIndex
  */
 
+    var views = YUI.namespace('Env.PNM.VIEWS'),
+        data  = YUI.namespace('Env.PNM.DATA');
+
     /**
      * Constructor for the PNMBinderIndex class.
      *
@@ -37,32 +40,13 @@ YUI.add('PNMBinderIndex', function(Y, NAME) {
          * @param node {Node} The DOM node to which this mojit is attached.
          */
         bind: function(node) {
-            // try { Typekit.load(); } catch (e) {}
-            var PNMEnv   = YUI.namespace('Env.PNM'),
-                data     = YUI.namespace('Env.PNM.DATA'),
-                place    = new Y.PNM.Place(data.place),
-                photos   = new Y.PNM.Photos().reset(data.photos || []),
-                photo    = new Y.PNM.Photo(data.photo),
-                viewName = PNMEnv.VIEW,
-                views    = {},
-                view, app;
-
             Y.log ('bind', 'info', NAME);
 
-            if (viewName) {
-                view = new Y.PNM.App.prototype.views[viewName].type({
-                    container: Y.one('#main .' + viewName),
-                    place    : place,
-                    photos   : photos,
-                    photo    : photo
-                });
-
-                views[viewName] = {instance: view};
-            }
-
-            app = new Y.PNM.App({
-                place : place,
-                photos: photos,
+            // try { Typekit.load(); } catch (e) {}
+            this.app = new Y.PNM.App({
+                place : data.place || new Y.PNM.Place(),
+                photo : data.photo,
+                photos: data.photos,
                 views : views,
 
                 container    : '#wrap',
@@ -71,13 +55,22 @@ YUI.add('PNMBinderIndex', function(Y, NAME) {
                 serverRouting: true
             });
 
-            photos.isEmpty() && app.loadPhotos();
+            if (data.photos.isEmpty()) {
+                this.app.loadPhotos();
+            }
+
+            // if there is at least one of the default views ready, we should show it
+            Y.Array.some(['lightbox', 'grid'], function (viewName) {
+                if (views[viewName]) {
+                    this.app.showView(views[viewName].instance, null, {transition: false});
+                    return true; // stopping looking
+                }
+            }, this);
+
             // @caridy: not so sure why I need to force to render here,
             // in the original implementation the render gets executed
             // automatically.
-            app.render();
-            view && app.showView(view, null, {transition: false});
-
+            this.app.render();
         }
 
     };

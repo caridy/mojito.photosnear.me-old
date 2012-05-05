@@ -10,6 +10,9 @@ YUI.add('lightboxBinderIndex', function(Y, NAME) {
  * @module lightboxBinderIndex
  */
 
+    var views = YUI.namespace('Env.PNM.VIEWS'),
+        data  = YUI.namespace('Env.PNM.DATA');
+
     /**
      * Constructor for the lightboxBinderIndex class.
      *
@@ -23,20 +26,14 @@ YUI.add('lightboxBinderIndex', function(Y, NAME) {
          * have been constructed.
          */
         init: function(mojitProxy) {
-            var PNMEnv   = YUI.namespace('Env.PNM'),
-                data     = YUI.namespace('Env.PNM.DATA');
-
             Y.log ('init', 'info', NAME);
-
             this.mojitProxy = mojitProxy;
             this.config = mojitProxy.config;
-
-            // adding some data into the global PNM register when possible
+            // adding some data into the global PNM register
             if (this.config.place) {
-                data.place = this.config.place;
-                // notifying the parent mojit that the lightbox is the default view
-                PNMEnv.VIEW = 'lightbox';
+                data.place = new Y.PNM.Place(this.config.place);
             }
+            data.photo = new Y.PNM.Photo(this.config.photo);
         },
 
         /**
@@ -46,9 +43,23 @@ YUI.add('lightboxBinderIndex', function(Y, NAME) {
          * @param node {Node} The DOM node to which this mojit is attached.
          */
         bind: function(node) {
-            var me = this;
-            this.node = node;
             Y.log ('bind', 'info', NAME);
+            // removing the node from the DOM in preparation for view rendering
+            node.remove();
+            // adding the view into the global PNM register
+            views.lightbox = this.getViewInstance(node);
+        },
+
+        getViewInstance: function (node) {
+            var view;
+            if (this.config.place) {
+                view = new Y.PNM.LightboxView({
+                    container: node,
+                    photo    : data.photo,
+                    photos   : data.photos
+                });
+            }
+            return ( view ? { instance: view } : view );
         }
 
     };
