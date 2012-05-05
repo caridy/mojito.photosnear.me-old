@@ -27,9 +27,8 @@ YUI.add('lightbox', function(Y, NAME) {
             // rendering the final view
             ac.done(data, {
                 view: {
-                    "name": 'index',
-                    "engine": 'hb',
-                    "content-path": __dirname+"/views/photo.hb.html"
+                    name: "index",
+                    engine: "hb"
                 }
             });
         },

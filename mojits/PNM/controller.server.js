@@ -67,9 +67,8 @@ YUI.add('PNM', function(Y, NAME) {
                 template: templateData
             }, {
                 view: {
-                    "name": 'index',
-                    "engine": 'hb',
-                    "content-path": __dirname+"/views/index.hb.html"
+                    name: "index",
+                    engine: "hb"
                 }
             });
         }

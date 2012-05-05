@@ -29,9 +29,8 @@ YUI.add('grid', function(Y, NAME) {
                 photos: photos
             }, {
                 view: {
-                    "name": 'index',
-                    "engine": 'hb',
-                    "content-path": __dirname+"/views/grid.hb.html"
+                    name: "index",
+                    engine: "hb"
                 }
             });
         },
