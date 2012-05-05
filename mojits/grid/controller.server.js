@@ -22,7 +22,7 @@ YUI.add('grid', function(Y, NAME) {
             this.config = config;
         },
 
-        flush: function(ac, photos) {
+        _flush: function(ac, photos) {
             ac.assets.addCss('./grid.css');
             // rendering the final view
             ac.done({
@@ -35,11 +35,75 @@ YUI.add('grid', function(Y, NAME) {
             });
         },
 
-        pushData: function (name, value) {
+        _pushData: function (name, value) {
             // this is part of the hack to pipe data into the parent mojit
             if (this.config.pushData) {
                 this.config.pushData(name, value);
             }
+        },
+
+        _byId: function (ac, id) {
+            var self     = this,
+                requests = new Y.Parallel(),
+                place  = new Y.PNM.Place({id: id}),
+                photos = new Y.PNM.Photos();
+
+            place.load(requests.add());
+            photos.load({place: place}, requests.add());
+
+            requests.done(function () {
+
+                // pushing data into the parent mojit if needed
+                self._pushData('place', {
+                    id  : place.get('id'),
+                    text: place.toString()
+                });
+
+                // pushing data to the client.
+                ac.instance.config.place = place.toJSON();
+                // photos.toJSON() fails because it is also trying to convert
+                // the photo.location attribute which is a complex structure
+                // ac.instance.config.photos = photos.toJSON();
+                // So, I will do my own thing here
+                ac.instance.config.photos = photos.map(function (model) {
+                    var attrs = model.getAttrs();
+                    delete attrs.location;
+                    delete attrs.clientId;
+                    delete attrs.destroyed;
+                    delete attrs.initialized;
+                    if (model.idAttribute !== 'id') {
+                        delete attrs.id;
+                    }
+                    return attrs;
+                });
+
+                // flushign the html fragment
+                self._flush(ac, photos.map(function (photo) {
+                    return photo.getAttrs(['id', 'title', 'thumbUrl']);
+                }));
+            });
+        },
+
+        _byText: function (ac, text) {
+            var self = this,
+                place;
+
+            place = new Y.PNM.Place();
+            place.load({text: text}, function () {
+                if (place.isNew()) {
+                    // TODO: apparently, composite doesn't support 404 error
+                    //ac.error({
+                    //    code: 404
+                    //});
+                    // for now lets just flush it
+                    self._flush(ac, []);
+                } else {
+                    // TODO: apparently, composite doesn't support redirect
+                    //ac.http.redirect('/places/' + place.get('id') + '/', 302);
+                    // for now lets just call _byId
+                    self._byId(ac, place.get('id'));
+                }
+            });
         },
 
         /**
@@ -49,54 +113,20 @@ YUI.add('grid', function(Y, NAME) {
          *        to the Mojito API.
          */
         index: function(ac) {
-            var self     = this,
-                params   = (ac.params.params || {}), // yeah, nasty
-                route    = params.route || {},
-                requests = new Y.Parallel(),
-                place, photos;
+            var params   = (ac.params.params || {}), // yeah, nasty
+                route    = params.route || {};
 
-            if (route.id && route.type === 'place') {
-                place  = new Y.PNM.Place({id: route.id}),
-                photos = new Y.PNM.Photos(),
-
-                place.load(requests.add());
-                photos.load({place: place}, requests.add());
-
-                requests.done(function () {
-
-                    // pushing data into the parent mojit if needed
-                    self.pushData('place', {
-                        id  : place.get('id'),
-                        text: place.toString()
-                    });
-
-                    // pushing data to the client.
-                    ac.instance.config.place = place.toJSON();
-                    // photos.toJSON() fails because it is also trying to convert
-                    // the photo.place attribute which is a complex structure
-                    // ac.instance.config.photos = photos.toJSON();
-                    // So, I will do my own thing here
-                    ac.instance.config.photos = photos.map(function (model) {
-                        var attrs = model.getAttrs();
-                        delete attrs.place;
-                        delete attrs.clientId;
-                        delete attrs.destroyed;
-                        delete attrs.initialized;
-                        if (model.idAttribute !== 'id') {
-                            delete attrs.id;
-                        }
-                        return attrs;
-                    });
-
-                    // flushign the html fragment
-                    self.flush(ac, photos.map(function (photo) {
-                        return photo.getAttrs(['id', 'clientId', 'thumbUrl']);
-                    }));
-                });
+            if (route.place && route.type === 'place') {
+                // displaying photos by location name
+                this._byText(ac, route.place);
+            }
+            else if (route.id && route.type === 'place') {
+                // displaying photos by location id
+                this._byId(ac, route.id);
             }
             else {
                 // displaying an empty grid
-                self.flush(ac, []);
+                this._flush(ac, []);
             }
         }
 

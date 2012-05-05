@@ -27,12 +27,6 @@ PhotosNearMe = Y.Base.create('photosNearMe', Y.App, [], {
     },
 
     initializer: function () {
-        var initialView = new Y.View({
-            container: this.get('viewContainer').one('div')
-        });
-
-        this.showView(initialView, null, {transition: false});
-
         this.after('placeChange', this.render);
         this.after('placeChange', this.loadPhotos);
 
@@ -57,17 +51,17 @@ PhotosNearMe = Y.Base.create('photosNearMe', Y.App, [], {
             placeText = place.toString(),
             container = this.get('container'),
             doc       = Y.config.doc,
-            content;
+            placeData, content;
+
+        placeData = place.isNew() ? null : {
+            id  : place.get('id'),
+            text: placeText
+        };
 
         // Update the title of the browser window.
-        doc && (doc.title = this.titleTemplate({place: placeText}));
+        doc && (doc.title = this.titleTemplate({place: placeData}));
 
-        content = this.headerTemplate({
-            place: place.isNew() ? null : {
-                id  : place.get('id'),
-                text: placeText
-            }
-        });
+        content = this.headerTemplate({place: placeData});
 
         container.removeClass('loading').one('#header').setContent(content);
         // Delay adding `located` class so the CSS transitions run.
@@ -125,9 +119,9 @@ PhotosNearMe = Y.Base.create('photosNearMe', Y.App, [], {
         } else {
             photo = new Photo(params);
             photo.load(function () {
-                // Use the photo's place if we do not have a loaded place.
+                // Use the photo's location if we do not have a loaded place.
                 if (self.get('place').isNew()) {
-                    self.set('place', photo.get('place'));
+                    self.set('place', photo.get('location'));
                 }
 
                 photo.loadImg(function () {

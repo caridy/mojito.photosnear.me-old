@@ -1,36 +1,39 @@
 YUI.add('pnm-photo', function (Y) {
 
-var Lang  = Y.Lang,
+var FLICKR_API_KEY = YUI.namespace('Env.Flickr').API_KEY || '',
+
+    Lang  = Y.Lang,
     Place = Y.PNM.Place,
     Photo;
 
 Photo = Y.Base.create('photo', Y.Model, [Y.ModelSync.YQL], {
 
     cache  : new Y.CacheOffline(),
-    query  : 'SELECT * FROM flickr.photos.info WHERE api_key={api_key} AND photo_id={id}',
+    query  : 'SELECT {attrs} FROM flickr.photos.info WHERE api_key={api_key} AND photo_id={id}',
     imgUrl : 'http://farm{farm}.static.flickr.com/{server}/{id}_{secret}_{size}.jpg',
     pageUrl: 'http://www.flickr.com/photos/{user}/{id}/',
 
     buildQuery: function () {
         return Lang.sub(this.query, {
             api_key: YUI.namespace('Env.Flickr').API_KEY || '',
-            id     : this.get('id')
+            id     : this.get('id'),
+            attrs  : Photo.YQL_ATTRS
         });
     },
 
     parse: function (results) {
-        if ( ! results) { return; }
+        if (!results) { return; }
 
-        var photo    = results.photo,
-            place    = photo.location,
-            country  = place.country,
-            region   = place.region,
-            locality = place.locality;
+        var photo    = Y.merge(results.photo),
+            location = photo.location,
+            country  = location.country,
+            region   = location.region,
+            locality = location.locality;
 
-        photo.place = {
-            woeid    : place.woeid,
-            latitude : place.latitude,
-            longitude: place.longitude,
+        photo.location = {
+            woeid    : location.woeid,
+            latitude : location.latitude,
+            longitude: location.longitude,
             country  : country && country.content,
             region   : region && region.content,
             locality : locality && locality.content
@@ -81,11 +84,11 @@ Photo = Y.Base.create('photo', Y.Model, [Y.ModelSync.YQL], {
         url_sq   : {},
         url_z    : {},
 
-        place: {
+        location: {
             value : {},
-            setter: function (place) {
-                (place instanceof Place) || (place = new Place(place));
-                return place;
+            setter: function (location) {
+                (location instanceof Place) || (location = new Place(location));
+                return location;
             }
         },
 
@@ -107,16 +110,18 @@ Photo = Y.Base.create('photo', Y.Model, [Y.ModelSync.YQL], {
             readOnly: true,
             getter  : function () {
                 var user = this.get('pathalias') || this.get('owner');
-                
-console.log (user);
-
                 return Lang.sub(this.pageUrl, {
                     id  : this.get('id'),
                     user: Lang.isString(user) ? user : user.nsid
                 });
             }
         }
-    }
+    },
+
+    YQL_ATTRS: [
+        'id', 'farm', 'server', 'secret', 'owner', 'pathalias', 'title',
+        'location', 'url_sq', 'url_z'
+    ]
 
 });
 

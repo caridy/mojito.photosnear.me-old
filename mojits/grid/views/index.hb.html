@@ -4,11 +4,10 @@
 
 
 <!-- partial: grid-photo /-->
-<li class="photo" id="{{clientId}}">
+<li class="photo">
     <a href="/photos/{{id}}/">
-        {{#if thumbUrl}}
-        <img src="{{thumbUrl}}" />
-        {{/if}}
+        <img title="{{title}}" src="{{thumbUrl}}"
+             alt="Thumbnail of a photo with title: {{title}}" />
     </a>
 </li>
 

@@ -22,7 +22,7 @@ YUI.add('lightbox', function(Y, NAME) {
             this.config = config;
         },
 
-        flush: function(ac, data) {
+        _flush: function(ac, data) {
             ac.assets.addCss('./lightbox.css');
             // rendering the final view
             ac.done(data, {
@@ -33,11 +33,49 @@ YUI.add('lightbox', function(Y, NAME) {
             });
         },
 
-        pushData: function (name, value) {
+        _pushData: function (name, value) {
             // this is part of the hack to pipe data into the parent mojit
             if (this.config.pushData) {
                 this.config.pushData(name, value);
             }
+        },
+
+        _byId: function (ac, id) {
+            var self     = this,
+                photo = new Y.PNM.Photo({id: id}),
+                place;
+
+            photo.load(function () {
+                place = photo.get('location');
+
+                // pushing data into the parent mojit if needed
+                self._pushData('place', {
+                    id  : place.get('id'),
+                    text: place.toString()
+                });
+
+                // pushing data to the client.
+                ac.instance.config.place = place.toJSON();
+                // photos.toJSON() fails because it is also trying to convert
+                // the photo.location attribute which is a complex structure
+                // ac.instance.config.photo = photo.toJSON();
+                // So, I will do my own thing here
+                ac.instance.config.photo = photo.getAttrs();
+                delete ac.instance.config.photo.location;
+                delete ac.instance.config.photo.clientId;
+                delete ac.instance.config.photo.destroyed;
+                delete ac.instance.config.photo.initialized;
+                if (photo.idAttribute !== 'id') {
+                    delete ac.instance.config.photo.id;
+                }
+
+                // flushign the html fragment
+                self._flush(ac, {
+                    photo: Y.merge({title: 'Photo'}, photo.getAttrs([
+                        'title', 'largeUrl', 'pageUrl'
+                    ]))
+                });
+            });
         },
 
         /**
@@ -47,36 +85,16 @@ YUI.add('lightbox', function(Y, NAME) {
          *        to the Mojito API.
          */
         index: function(ac) {
-            var self     = this,
-                params   = (ac.params.params || {}), // yeah, nasty
-                route    = params.route || {},
-                photo, place;
+            var params   = (ac.params.params || {}), // yeah, nasty
+                route    = params.route || {};
 
             if (route.id && route.type === 'photo') {
-                photo = new Y.PNM.Photo({id: route.id}),
-
-                photo.load(function () {
-                    place = photo.get('place');
-
-                    // pushing data into the parent mojit if needed
-                    self.pushData('place', {
-                        id  : place.get('id'),
-                        text: place.toString()
-                    });
-
-                    // pushing data to the client.
-                    ac.instance.config.place = place.toJSON();
-
-                    self.flush(ac, {
-                        photo: Y.merge({title: 'Photo'}, photo.getAttrs([
-                            'title', 'largeUrl', 'pageUrl', 'description'
-                        ]))
-                    });
-                });
+                // displaying photo by id
+                this._byId(ac, route.id);
             }
             else {
                 // displaying an empty lightbox
-                self.flush(ac, {});
+                this._flush(ac, {});
             }
         }
 

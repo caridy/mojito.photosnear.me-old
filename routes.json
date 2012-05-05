@@ -19,6 +19,16 @@
 		"method": ["get"],
 		"call": "frame.index",
 		"params": "type=photo"
+	},
+
+	"place": {
+		"//": "Catch-all route to dynamically figure out the place based on text.",
+		"//": "**Note:** This needs to be the last route.",
+
+		"path": "/:place",
+		"method": ["get"],
+		"call": "frame.index",
+		"params": "type=place"
 	}
 
 }]

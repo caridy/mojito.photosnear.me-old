@@ -49,8 +49,8 @@ YUI.add('PNM', function(Y, NAME) {
 
             // super HACK to create a communication pipeline between the parent mojit
             // and every children
-            Y.each(Y.Object.keys(ac.instance.config.children), function (name) {
-                var childConfig = ac.instance.config.children[name].config || {};
+            Y.each(Y.Object.keys(ac.instance.config.children), function (child) {
+                var childConfig = ac.instance.config.children[child].config || {};
                 // this trick will create a method that will be accessible at the child controller
                 // to inject data into the parent mojit configuration and template
                 childConfig.pushData = function (name, value) {
@@ -58,7 +58,7 @@ YUI.add('PNM', function(Y, NAME) {
                     templateData[name] = value;
                 };
                 // piping this back
-                ac.instance.config.children[name].config = childConfig;
+                ac.instance.config.children[child].config = childConfig;
             });
 
 
