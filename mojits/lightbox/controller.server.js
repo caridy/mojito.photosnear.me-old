@@ -65,7 +65,7 @@ YUI.add('lightbox', function(Y, NAME) {
                     });
 
                     // pushing data to the client.
-                    //ac.instance.config.place = place;
+                    ac.instance.config.place = place.toJSON();
 
                     self.flush(ac, {
                         photo: Y.merge({title: 'Photo'}, photo.getAttrs([

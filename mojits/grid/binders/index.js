@@ -23,7 +23,8 @@ YUI.add('gridBinderIndex', function(Y, NAME) {
          * have been constructed.
          */
         init: function(mojitProxy) {
-            var initialData = YUI.namespace('Env.PNM');
+            var PNMEnv   = YUI.namespace('Env.PNM'),
+                data     = YUI.namespace('Env.PNM.DATA');
 
             Y.log ('init', 'info', NAME);
 
@@ -31,11 +32,11 @@ YUI.add('gridBinderIndex', function(Y, NAME) {
             this.config = mojitProxy.config;
 
             // adding some data into the global PNM register when possible
-            if (this.config.place) {
-                initialData.place = this.config.place;
-            }
-            if (this.config.photos) {
-                initialData.photos = this.config.photos;
+            if (this.config.place && this.config.photos) {
+                data.place  = this.config.place;
+                data.photos = this.config.photos;
+                // notifying the parent mojit that the grid is the default view
+                PNMEnv.VIEW = 'grid';
             }
         },
 

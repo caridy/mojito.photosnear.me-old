@@ -62,6 +62,7 @@ YUI.add('PNM', function(Y, NAME) {
             });
 
 
+
             // creating the composite view
             ac.composite.done({
                 template: templateData

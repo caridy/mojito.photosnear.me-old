@@ -26,11 +26,6 @@ YUI.add('PNMBinderIndex', function(Y, NAME) {
             Y.log ('init', 'info', NAME);
             this.mojitProxy = mojitProxy;
             this.config = mojitProxy.config;
-            this.initialData = {};
-
-            // HACK to collect data form the differnet mojits in the page
-            Y.Global.on('register:mojit:data', Y.bind(this.registerChildMojitData, this));
-
             // normalization process to match the format of the original PNM
             YUI.namespace('Env.Flickr').API_KEY = this.config.flickr && this.config.flickr.api_key;
         },
@@ -43,20 +38,45 @@ YUI.add('PNMBinderIndex', function(Y, NAME) {
          */
         bind: function(node) {
             // try { Typekit.load(); } catch (e) {}
-            var initialData = YUI.namespace('Env.PNM'),
-                place  = new Y.PNM.Place(initialData.place),
-                photos = new Y.PNM.Photos().reset(initialData.photos || []);
+            var PNMEnv   = YUI.namespace('Env.PNM'),
+                data     = YUI.namespace('Env.PNM.DATA'),
+                place    = new Y.PNM.Place(data.place),
+                photos   = new Y.PNM.Photos().reset(data.photos || []),
+                photo    = new Y.PNM.Photo(data.photo),
+                viewName = PNMEnv.VIEW,
+                views    = {},
+                view, app;
 
             Y.log ('bind', 'info', NAME);
 
-            new Y.PNM.App({
+            if (viewName) {
+                view = new Y.PNM.App.prototype.views[viewName].type({
+                    container: Y.one('#main .' + viewName),
+                    place    : place,
+                    photos   : photos,
+                    photo    : photo
+                });
+
+                views[viewName] = {instance: view};
+            }
+
+            app = new Y.PNM.App({
+                place : place,
+                photos: photos,
+                views : views,
+
                 container    : '#wrap',
                 viewContainer: '#main',
                 transitions  : false,
-                serverRouting: true,
-                place        : place,
-                photos       : photos
+                serverRouting: true
             });
+
+            photos.isEmpty() && app.loadPhotos();
+            // @caridy: not so sure why I need to force to render here,
+            // in the original implementation the render gets executed
+            // automatically.
+            app.render();
+            view && app.showView(view, null, {transition: false});
 
         }
 

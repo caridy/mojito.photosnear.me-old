@@ -23,7 +23,8 @@ YUI.add('lightboxBinderIndex', function(Y, NAME) {
          * have been constructed.
          */
         init: function(mojitProxy) {
-            var initialData = YUI.namespace('Env.PNM');
+            var PNMEnv   = YUI.namespace('Env.PNM'),
+                data     = YUI.namespace('Env.PNM.DATA');
 
             Y.log ('init', 'info', NAME);
 
@@ -32,7 +33,9 @@ YUI.add('lightboxBinderIndex', function(Y, NAME) {
 
             // adding some data into the global PNM register when possible
             if (this.config.place) {
-                initialData.place = this.config.place;
+                data.place = this.config.place;
+                // notifying the parent mojit that the lightbox is the default view
+                PNMEnv.VIEW = 'lightbox';
             }
         },
 

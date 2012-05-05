@@ -71,9 +71,24 @@ YUI.add('grid', function(Y, NAME) {
                     });
 
                     // pushing data to the client.
-                    //ac.instance.config.place = place;
-                    //ac.instance.config.photos = photos;
+                    ac.instance.config.place = place.toJSON();
+                    // photos.toJSON() fails because it is also trying to convert
+                    // the photo.place attribute which is a complex structure
+                    // ac.instance.config.photos = photos.toJSON();
+                    // So, I will do my own thing here
+                    ac.instance.config.place = photos.map(function (model) {
+                        var attrs = model.getAttrs();
+                        delete attrs.place;
+                        delete attrs.clientId;
+                        delete attrs.destroyed;
+                        delete attrs.initialized;
+                        if (model.idAttribute !== 'id') {
+                            delete attrs.id;
+                        }
+                        return attrs;
+                    });
 
+                    // flushign the html fragment
                     self.flush(ac, photos.map(function (photo) {
                         return photo.getAttrs(['id', 'clientId', 'thumbUrl']);
                     }));
