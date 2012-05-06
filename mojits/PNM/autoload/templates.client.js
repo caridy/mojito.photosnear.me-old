@@ -1,12 +1,5 @@
 YUI.add('pnm-templates', function (Y) {
 
-/*
-
-THIS IS A BIG HACK FOR NOW UNTIL WE FIGURE OUT HOW TO PRECOMPILE HANDLEBARS
-TEMPLATES IN MOJITO AND PASSING THEM TO THE CLIENT SIDE.
-
-*/
-
 var Templates = Y.namespace('PNM').Templates = {};
 
 
@@ -35,84 +28,6 @@ function program1(depth0,data) {
   stack1 = stack2.call(depth0, stack1, tmp1);
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</ul>\n\n<p class=\"loading\"></p>\n";
-  return buffer;});
-
-    Templates['no-location'] = Y.Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  helpers = helpers || Handlebars.helpers;
-  var foundHelper, self=this;
-
-
-  return "<p>Unable to determine your location :(</p>\n";});
-
-    Templates['grid-photo'] = Y.Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  helpers = helpers || Handlebars.helpers;
-  var buffer = "", stack1, stack2, foundHelper, tmp1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n        <img src=\"";
-  foundHelper = helpers.thumbUrl;
-  stack1 = foundHelper || depth0.thumbUrl;
-  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "thumbUrl", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "\" />\n        ";
-  return buffer;}
-
-  buffer += "<li class=\"photo\" id=\"";
-  foundHelper = helpers.clientId;
-  stack1 = foundHelper || depth0.clientId;
-  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "clientId", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "\">\n    <a href=\"/photos/";
-  foundHelper = helpers.id;
-  stack1 = foundHelper || depth0.id;
-  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "id", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "/\">\n        ";
-  foundHelper = helpers.thumbUrl;
-  stack1 = foundHelper || depth0.thumbUrl;
-  stack2 = helpers['if'];
-  tmp1 = self.program(1, program1, data);
-  tmp1.hash = {};
-  tmp1.fn = tmp1;
-  tmp1.inverse = self.noop;
-  stack1 = stack2.call(depth0, stack1, tmp1);
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    </a>\n</li>\n";
-  return buffer;});
-
-    Templates['title'] = Y.Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  helpers = helpers || Handlebars.helpers;
-  var buffer = "", stack1, stack2, foundHelper, tmp1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n    Photos Near: ";
-  foundHelper = helpers.place;
-  stack1 = foundHelper || depth0.place;
-  stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.text);
-  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "place.text", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "\n";
-  return buffer;}
-
-function program3(depth0,data) {
-  
-  
-  return "\n    Photos Near Me\n";}
-
-  foundHelper = helpers.place;
-  stack1 = foundHelper || depth0.place;
-  stack2 = helpers['if'];
-  tmp1 = self.program(1, program1, data);
-  tmp1.hash = {};
-  tmp1.fn = tmp1;
-  tmp1.inverse = self.program(3, program3, data);
-  stack1 = stack2.call(depth0, stack1, tmp1);
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n";
   return buffer;});
 
     Templates['header'] = Y.Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -239,6 +154,74 @@ function program4(depth0,data) {
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "photo.title", { hash: {} }); }
   buffer += escapeExpression(stack1) + "</a>\n        </h2>\n    </div>\n</div>\n";
+  return buffer;});
+
+    Templates['grid-photo'] = Y.Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var buffer = "", stack1, foundHelper, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+
+  buffer += "<li class=\"photo\">\n    <a href=\"/photos/";
+  foundHelper = helpers.id;
+  stack1 = foundHelper || depth0.id;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "id", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "/\">\n        <img title=\"";
+  foundHelper = helpers.title;
+  stack1 = foundHelper || depth0.title;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "title", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "\" src=\"";
+  foundHelper = helpers.thumbUrl;
+  stack1 = foundHelper || depth0.thumbUrl;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "thumbUrl", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "\"\n            alt=\"Thumbnail of a photo with title: ";
+  foundHelper = helpers.title;
+  stack1 = foundHelper || depth0.title;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "title", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "\" />\n    </a>\n</li>\n";
+  return buffer;});
+
+    Templates['no-location'] = Y.Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var foundHelper, self=this;
+
+
+  return "<p>Unable to determine your location :(</p>\n";});
+
+    Templates['title'] = Y.Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var buffer = "", stack1, stack2, foundHelper, tmp1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n    Photos Near: ";
+  foundHelper = helpers.place;
+  stack1 = foundHelper || depth0.place;
+  stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.text);
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "place.text", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "\n";
+  return buffer;}
+
+function program3(depth0,data) {
+  
+  
+  return "\n    Photos Near Me\n";}
+
+  foundHelper = helpers.place;
+  stack1 = foundHelper || depth0.place;
+  stack2 = helpers['if'];
+  tmp1 = self.program(1, program1, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.program(3, program3, data);
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n";
   return buffer;});
 
 
