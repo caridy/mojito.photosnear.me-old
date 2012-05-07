@@ -1,0 +1,7 @@
+{
+	"actions":{
+		"index":{
+			"mojits": ["PNM.index","grid.index","lightbox.index"]
+		}
+	}
+}

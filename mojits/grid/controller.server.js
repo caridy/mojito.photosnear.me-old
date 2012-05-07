@@ -23,7 +23,7 @@ YUI.add('grid', function(Y, NAME) {
         },
 
         _flush: function(ac, photos) {
-            ac.assets.addCss('./grid.css');
+           // ac.assets.addCss('./grid.css');
             // rendering the final view
             ac.done({
                 photos: photos

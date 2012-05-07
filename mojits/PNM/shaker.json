@@ -1,0 +1,12 @@
+{
+	"dimensions":{
+		"device":{
+			"ipad":{
+				"include": ["vendor/ios-orientationchange-fix.js"]
+			},
+			"iphone":{
+				"include": ["vendor/ios-orientationchange-fix.js"]
+			}
+		}
+	}
+}

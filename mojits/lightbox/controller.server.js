@@ -23,7 +23,7 @@ YUI.add('lightbox', function(Y, NAME) {
         },
 
         _flush: function(ac, data) {
-            ac.assets.addCss('./lightbox.css');
+            //ac.assets.addCss('./lightbox.css');
             // rendering the final view
             ac.done(data, {
                 view: {

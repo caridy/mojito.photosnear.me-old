@@ -1,1 +1,10 @@
 .DS_Store
+node_modules/
+assets/compiled
+mojits/SearchHTMLFrame/autoload/compiled/views.common.js
+
+mojits/grid/autoload/compiled/views.common.js
+
+mojits/lightbox/autoload/compiled/views.common.js
+
+mojits/PNM/autoload/compiled/views.common.js

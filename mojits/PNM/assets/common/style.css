@@ -26,7 +26,7 @@ html {
 body {
     margin: 0;
     color: #2D2930;
-    background: #F8FFFF url(img/bg.png);
+    background: #F8FFFF url(/PNM/assets/img/bg.png);
     /*background: url(img/bg.png), -moz-linear-gradient(left, #f1f7fa 0%, #f8ffff 25%, #f8ffff 75%, #f1f7fa 100%);
     background: url(img/bg.png), -webkit-gradient(linear, left top, right top, color-stop(0%,#f1f7fa), color-stop(25%,#f8ffff), color-stop(75%,#f8ffff), color-stop(100%,#f1f7fa));
     background: url(img/bg.png), -webkit-linear-gradient(left, #f1f7fa 0%, #f8ffff 25%, #f8ffff 75%, #f1f7fa 100%);
@@ -229,7 +229,7 @@ h1 a:visited {
 
 .loading {
     min-height: 32px;
-    background: url(img/spinner.gif) no-repeat center;
+    background: url(/PNM/assets/img/spinner.gif) no-repeat center;
 }
 
 #wrap {
@@ -254,7 +254,7 @@ h1 a:visited {
     display: inline-block;
     zoom: 1; *display: inline;
     position: relative;
-    background: url(img/cross_hair.png) center bottom no-repeat;
+    background: url(/PNM/assets/img/cross_hair.png) center bottom no-repeat;
     width: 42px;
     height: 54px;
     margin: 0 12px -17px -50px;
@@ -263,7 +263,7 @@ h1 a:visited {
     display: block;
     position: relative;
     margin: 0 auto;
-    background: url(img/pin.png) center top no-repeat;
+    background: url(/PNM/assets/img/pin.png) center top no-repeat;
     visibility: hidden;
     -webkit-transform: translateY(-100%);
     -moz-transform: translateY(-100%);
@@ -276,7 +276,7 @@ h1 a:visited {
     position: absolute;
     top: 0;
     width: 100%;
-    background: url(img/pin_shadow.png) right bottom no-repeat;
+    background: url(/PNM/assets/img/pin_shadow.png) right bottom no-repeat;
     visibility: hidden;
     -webkit-transform: translate(50%, -50%);
     -moz-transform: translate(50%, -50%);
@@ -409,21 +409,21 @@ h1 a:visited {
 
 @media
 only screen and (-webkit-min-device-pixel-ratio: 1.5),
-only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (-o-min-device-pixel-ratio: 1.5),
 only screen and (min-device-pixel-ratio: 1.5) {
 
     body {
-        background: #F8FFFF url(img/bg.png);
+        background: #F8FFFF url(/PNM/assets/img/bg.png);
         background-size: 50px 50px;
     }
 
     .loading {
-        background-image: url(img/spinner-2x.gif);
+        background-image: url(/PNM/assets/img/spinner-2x.gif);
         background-size: 32px 32px;
     }
 
-    #logo { background-image: url(img/cross_hair-2x.png); }
-    #logo .pin { background-image: url(img/pin-2x.png); }
-    #logo .pin-shadow { background-image: url(img/pin_shadow-2x.png); }
+    #logo { background-image: url(/PNM/assets/img/cross_hair-2x.png); }
+    #logo .pin { background-image: url(/PNM/assets/img/pin-2x.png); }
+    #logo .pin-shadow { background-image: url(/PNM/assets/img/pin_shadow-2x.png); }
 
 }
