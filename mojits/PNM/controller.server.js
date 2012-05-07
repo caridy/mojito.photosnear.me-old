@@ -35,8 +35,8 @@ YUI.add('PNM', function(Y, NAME) {
             Y.each(metas, function (m) {
                 ac.assets.addBlob('<meta name="'+m.name+'" content="'+m.content+'" />', 'top');
             });
-            ac.assets.addCss('./style.css');
-            ac.assets.addJs('./vendor/ios-orientationchange-fix.js');
+            //ac.assets.addCss('./style.css');
+            //ac.assets.addJs('./vendor/ios-orientationchange-fix.js');
 
             // piping the flickr configuration into the binder config
             ac.instance.config.flickr = ac.config.getDefinition('flickr');

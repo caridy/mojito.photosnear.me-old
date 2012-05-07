@@ -1,6 +1,8 @@
 [
     {
         "settings": [ "master" ],
+        "shaker":{
+            },
         "specs": {
             "pnm": {
                 "type": "PNM",
@@ -52,6 +54,12 @@
         "settings": [ "environment:development" ],
         "staticHandling": {
             "forceUpdate": true
+        }
+    },
+    {
+        "settings": [ "environment:test" ],
+        "shaker":{
+            "task": "local"
         }
     }
 ]

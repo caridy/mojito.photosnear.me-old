@@ -120,6 +120,7 @@ if (type === 'blob') {
                 if (ac.config.get('deploy') === true) {
                     ac.deploy.constructMojitoClientRuntime(ac.assets, meta.binders);
                 }
+                ac.shaker.run(meta);
 
                 // Attach assets found in the "meta" to the page
                 Y.Object.each(ac.assets.getAssets(), function(types, location) {
